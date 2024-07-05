@@ -13,7 +13,7 @@ from qgis.core import QgsVectorLayer
 from qgis.utils import iface
 from typing import Union, Dict, List
 ########################################################################
-from qgis.core import QgsField, QgsFeature, QgsGeometry, QgsPointXY
+from qgis.core import QgsField, QgsFeature, QgsGeometry, QgsPointXY, QgsMapLayer
 from PyQt5.QtCore import QVariant
 
 from qgis.gui import QgsMapToolEmitPoint
@@ -464,8 +464,8 @@ class SearcherTool:
         pr = layer.dataProvider()
         pr.addFeature(fet)
         layer.updateExtents()
+        layer.triggerRepaint()
 
-        self.iface.messageBar().pushMessage("Success", "Address point added", level=Qgis.Info)
         
     def get_layer_data(self, org: str, obj_type: str,
                        qml: str) -> QgsVectorLayer:
