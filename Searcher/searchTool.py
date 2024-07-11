@@ -455,10 +455,15 @@ class SearcherTool:
         # Populate fields based on address data
         for field in self.flds:
             field_name = field.name()
-            if field_name in address:
-                fet.setAttribute(field_name, str(address[field_name]))
-            else:
-                fet.setAttribute(field_name, None)  # Set default value to None
+            if field_name in layer.fields().names():  # Ensure the field exists in the layer
+                if field_name in address:
+                    # Check if the value is "null" and replace it with "Null"
+                    value = address[field_name]
+                    if value == "null":
+                        value = None
+                    fet.setAttribute(field_name, value)
+                else:
+                    fet.setAttribute(field_name, None)  # Set default value to None
 
         # Add the feature to the layer
         pr = layer.dataProvider()
